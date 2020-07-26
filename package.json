@@ -1,0 +1,36 @@
+{
+  "name": "arcdps_updater",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/updater.ts",
+  "scripts": {
+    "nodemon": "nodemon --exec \"npm run start\"",
+    "start": "gulp build && node ./build/updater.js \"bin64Path=E:\\Guild Wars 2\\bin64\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/types": "^7.10.4",
+    "@types/axios": "^0.14.0",
+    "@types/inquirer": "^7.3.0",
+    "@types/node": "^14.0.26",
+    "@types/progress": "^2.0.3",
+    "babel-plugin-root-import": "^6.5.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "inquirer": "^7.3.3",
+    "pkg": "^4.4.9",
+    "typescript": "^3.9.6"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "chalk": "^4.1.0",
+    "node-html-parser": "^1.2.20",
+    "progress": "^2.0.3"
+  }
+}
