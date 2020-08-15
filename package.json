@@ -30,7 +30,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "chalk": "^4.1.0",
-    "node-html-parser": "^1.2.20",
+    "hasha": "^5.2.0",
     "progress": "^2.0.3"
   }
 }

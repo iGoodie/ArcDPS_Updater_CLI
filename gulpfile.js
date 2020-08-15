@@ -40,6 +40,7 @@ function start() {
     script: "src/updater.ts",
     watch: "src",
     tasks: ["transpile"],
+    exec: "ts-node --files"
   });
 }
 

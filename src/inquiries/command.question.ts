@@ -7,8 +7,8 @@ const question: inquirer.RawListQuestion = {
   type: "rawlist",
   name: "Select an action",
   choices: [
-    { name: "Update ArcDPS", value: UpdateCommand.name },
-    { name: "Check for last release date", value: CheckCommand.name },
+    { name: "Update/Install ArcDPS", value: UpdateCommand.name },
+    { name: "Check for update", value: CheckCommand.name },
     { name: "Exit the program", value: ExitCommand.name },
   ],
 };

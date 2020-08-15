@@ -1,33 +1,46 @@
+import * as fs from "fs";
 import * as chalk from "chalk";
-import * as inquirer from "inquirer";
+import * as hasha from "hasha";
+import * as arcdps from "~/util/arcdps.util";
 import pathsConfig from "~/configurations/paths.config";
-import * as appData from "~/configurations/appdata.config";
-import { downloadDLL, getLatestReleaseDate } from "~/util/arcdps.util";
 
 export const name = "update";
 
-export default function () {
-  return inquirer
-    .prompt([{ type: "confirm", name: "Force Update?", default: false }])
-    .then(async (answers) => {
-      const forceUpdate = answers["Force Update?"];
+export default async function () {
+  const d3d9Path = pathsConfig.bin64Path + "/d3d9.dll";
 
-      if (!forceUpdate) {
-        const lastReleased = await getLatestReleaseDate();
-        const lastUpdated = appData.default.lastUpdated;
-        if (lastUpdated > lastReleased) {
-          console.log(
-            chalk.green(
-              "Your ArcDPS is already up to date. Enjoy the game!"
-            )
-          );
-          return;
-        }
-      }
+  if (!fs.existsSync(d3d9Path)) {
+    console.log(
+      chalk.blueBright(
+        "[i] ArcDPS is not installed. Attempting to install it.."
+      )
+    );
+    await performDownload(d3d9Path);
+    return;
+  }
 
-      await downloadDLL(pathsConfig.bin64Path + "\\d3d9.dll").then(() => {
-        appData.default.lastUpdated = new Date();
-        appData.save();
-      });
-    });
+  const [currentMd5, [targetMd5]] = await Promise.all([
+    hasha.fromFile(d3d9Path, { algorithm: "md5" }),
+    arcdps.downloadMD5Sum(),
+  ]);
+
+  if (currentMd5 === targetMd5) {
+    console.log(
+      chalk.greenBright(
+        "[✓] Your ArcDPS is already up to date! Enjoy the game."
+      )
+    );
+  } else {
+    console.log(
+      chalk.blueBright("[i] An update is available. Attempting to fetch it...")
+    );
+    await performDownload(d3d9Path);
+  }
+}
+
+async function performDownload(path: string) {
+  await arcdps.downloadDLL(path);
+  console.log(
+    chalk.greenBright("[✓] Intalled latest version of ArcDPS. Enjoy the game.")
+  );
 }
